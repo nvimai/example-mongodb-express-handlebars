@@ -1,0 +1,19 @@
+<h1>Food Detail</h1>
+
+<form method="post">
+    <fieldset>
+        <label for="name" class="col-sm-2">Name: *</label>
+        <input name="name" id="name" required value="{{food.name}}" />
+    </fieldset>
+    <fieldset>
+        <label for="country" class="col-sm-2">Country: *</label>
+        <select name="country" id="country" required>
+            {{#each countries}}
+                <option value="{{ name }}">
+                    {{ name }}
+                </option>
+            {{/each}}
+        </select>
+    </fieldset>
+    <button class="btn btn-info offset-sm-2">Save</button>
+</form>
