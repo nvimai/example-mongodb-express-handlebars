@@ -1,11 +1,12 @@
 // add express for url routing
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
 
 // add mongoose & Food model reference for CRUD
-var mongoose = require('mongoose')
-var Food = require('../models/food')
-var Country = require('../models/country')
+var mongoose = require('mongoose');
+var Food = require('../models/food');
+var Country = require('../models/country');
 
 //Get main food page
 router.get('/',(req,res, next)=>{
@@ -17,7 +18,8 @@ router.get('/',(req,res, next)=>{
         }else{
             // load the main foods page
             res.render('foods/index', {
-                foods: foods
+                foods: foods,
+                user: req.user
             })
         }
     })

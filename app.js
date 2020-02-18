@@ -4,6 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+// passport references for auth
+var passport = require('passport');
+var session = require('express-session');
+
 // add mongoose for db connection
 var mongoose = require('mongoose');
 
@@ -24,13 +28,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
-// map any
-app.use('/foods', foodsController);
-app.use('/countries', countriesController);
-
 // db connection
 var globals = require('./config/globals')
 
@@ -41,9 +38,39 @@ mongoose.connect(globals.db,{
     (res) =>{
       console.log('Connected to MongoDB')
     }
-).catch(() => {
+).catch((e) => {
+  console.log(e);
   console.log('Connected failed')
 })
+
+// passport auth config
+// Set app 
+app.use(session({
+  secret: 'aowiejfwofijgowi',
+  resave: true,
+  saveUninitialized: false
+}));
+
+
+// Initilize passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// link passport to the user model
+var User = require('./models/user');
+passport.use(User.createStrategy());
+
+// set up passport to read/write user data to/from the session object
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+
+// map any
+app.use('/foods', foodsController);
+app.use('/countries', countriesController);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
