@@ -9,43 +9,15 @@ var User = require('../models/user');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'COMP2106 Global Food Market' });
+  res.render('index', { 
+    title: 'COMP2106 Global Food Market',
+    user: req.user
+  });
 });
-
-/*  GET about page*/
-// router.get('/about', (req, res, next) => {
-//   res.render('about', {
-//     title:'About Us',
-//     countries: [{
-//       name: 'Canada'
-//     },
-//       {
-//         name: 'India'
-//       },
-//       {
-//         name: 'Italy'
-//       },
-//       {
-//         name: 'Barbados'
-//       },
-//       {
-//         name: 'Iran'
-//       },
-//       {
-//         name: 'Taiwan'
-//       },
-//       {
-//         name: 'Korea'
-//       },
-//       {
-//         name: 'Vietnam'
-//       }]
-//   });
-// })
-
 
 //Get main country page
 router.get('/about',(req,res, next)=>{
+  console.log(req.user)
   //use the country model & mongoose to select all the countries from MongoDB
   Country.find((err, countries)=> {
     if(err){
@@ -54,7 +26,8 @@ router.get('/about',(req,res, next)=>{
     }else{
       // load the main countries page
       res.render('about', {
-        countries: countries
+        countries: countries,
+        user: req.user
       })
     }
   })

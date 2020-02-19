@@ -1,13 +1,10 @@
 <h1>About the Global Food Market</h1>
 <p>Our Market has great food representing many countries:</p>
 
-<!--<ul>-->
-<!--    {{#each countries}}-->
-<!--        <li>{{this.name}}</li>-->
-<!--    {{/each}}-->
-<!--</ul>-->
+{{#if user}}
+    <a href="/countries/add">Add a New Country</a>
+{{/if}}
 
-<a href="/countries/add">Add a New Country</a>
 <table class="table table-striped table-hover">
     <thead>
     <th>Name</th>
